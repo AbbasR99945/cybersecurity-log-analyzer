@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cybersecurity Log Analyzer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <h1>Cybersecurity Log Analyzer</h1>
+        <p>Paste logs, find suspicious events, and export a defensive incident summary.</p>
+      </div>
+      <button id="sample" class="secondary">Load sample</button>
+    </header>
+    <section class="grid">
+      <div class="panel full">
+        <label for="log-input">Log text</label>
+        <textarea id="log-input" spellcheck="false"></textarea>
+        <div class="actions">
+          <input id="log-file" type="file" accept=".log,.txt">
+          <button id="analyze">Analyze logs</button>
+          <button id="export" class="secondary">Export report</button>
+          <button id="clear" class="secondary">Clear</button>
+        </div>
+      </div>
+      <div class="panel full">
+        <h2>Summary</h2>
+        <div id="metrics" class="metric-row"></div>
+      </div>
+      <div class="panel">
+        <h2>Incidents</h2>
+        <div id="incidents" class="list"></div>
+      </div>
+      <div class="panel">
+        <h2>Source IPs</h2>
+        <table id="ip-table">
+          <thead><tr><th>IP</th><th>Lines</th><th>Score</th><th>Tags</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="panel full">
+        <h2>Response notes</h2>
+        <ul id="advice"></ul>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
