@@ -9,3 +9,4 @@
 7. Export the report as JSON.
 
 Long-line survival note: if the log line reaches the edge of the screen, it is probably also annoying in production.
+
