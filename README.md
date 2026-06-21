@@ -31,3 +31,15 @@ git branch -M main
 ```
 
 Then create a GitHub repository and push it using the commands GitHub gives you.
+## What I Learned
+
+- A simple browser project still needs tidy structure, because HTML, CSS, and JavaScript can get messy quickly.
+- Keeping the interface focused makes the project easier to test manually.
+- Small sample inputs make the page feel more finished than an empty demo.
+
+## Next Improvements
+
+- Add another screenshot after any visual redesign.
+- Keep the JavaScript syntax check passing in GitHub Actions.
+- Improve the sample data if the project grows beyond a small demo.
+
