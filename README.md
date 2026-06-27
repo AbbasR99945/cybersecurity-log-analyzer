@@ -1,45 +1,31 @@
 # Cybersecurity Log Analyzer
 
-                A defensive browser tool for reviewing server and authentication logs. It flags failed logins, suspicious URL probes, scan wording, privilege events, repeated source IPs, and produces a risk score.
+A small browser tool for reviewing sample server and sign-in logs. It highlights repeated failures, suspicious paths, privilege-related wording, and repeated source IPs, then turns the matches into a simple risk summary.
 
-                ## Features
+## Run
 
-                - Paste or upload `.txt` and `.log` files
-                - Rule-based detection
-                - Source IP grouping
-                - Incident list with matched tags
-                - Response notes
-                - JSON report export
+Open `index.html` in a browser.
 
-                ## Run
+## What It Does
 
-                Open `index.html` in a browser.
+- Accepts pasted or uploaded `.txt` and `.log` files.
+- Uses clear rule-based checks instead of hidden scoring.
+- Groups findings by source IP where possible.
+- Shows matched evidence and response notes.
+- Exports a JSON report for later review.
 
-                ## Suggested repo name
+## Safety Note
 
-                `cybersecurity-log-analyzer`
+Use sample logs or logs you are allowed to review. Do not upload real customer, school, or workplace logs unless they have been cleaned first.
 
-## GitHub upload
-
-This folder is ready to be uploaded as its own repository.
-
-```bash
-git init
-git add .
-git commit -m "initial project"
-git branch -M main
-```
-
-Then create a GitHub repository and push it using the commands GitHub gives you.
 ## What I Learned
 
-- A simple browser project still needs tidy structure, because HTML, CSS, and JavaScript can get messy quickly.
-- Keeping the interface focused makes the project easier to test manually.
-- Small sample inputs make the page feel more finished than an empty demo.
+- Small detection rules are easier to trust when the matched evidence is shown beside the result.
+- A log tool is more useful when it explains why something was flagged, not just that it was flagged.
+- Even a simple browser app needs tidy sample data to feel finished.
 
 ## Next Improvements
 
-- Add another screenshot after any visual redesign.
-- Keep the JavaScript syntax check passing in GitHub Actions.
-- Improve the sample data if the project grows beyond a small demo.
-
+- Add a few more sample logs for failed sign-ins, web probes, and normal traffic.
+- Add a screenshot after the next UI polish pass.
+- Add a short manual test checklist for the main rules.
