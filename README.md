@@ -43,3 +43,7 @@ Use sample logs or logs you are allowed to review. Do not upload real customer, 
 - Add a few more sample logs for failed sign-ins, web probes, and normal traffic.
 - Add highlighted evidence inside the pasted log text.
 - Add a manual test checklist for the main rules.
+
+## Portfolio Notes
+
+I added a short portfolio note for the defensive log-analysis workflow in [docs/portfolio-notes.md](docs/portfolio-notes.md).
