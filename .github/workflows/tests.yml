@@ -1,4 +1,4 @@
-name: Private Project CI
+name: Project CI
 
 on:
   push:
@@ -14,6 +14,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Check JavaScript syntax (app.js)
-        run: node --check "app.js"
+      - name: Run project checks
+        run: npm test
 

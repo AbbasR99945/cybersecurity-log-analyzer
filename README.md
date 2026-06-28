@@ -2,9 +2,23 @@
 
 A small browser tool for reviewing sample server and sign-in logs. It highlights repeated failures, suspicious paths, privilege-related wording, and repeated source IPs, then turns the matches into a simple risk summary.
 
+I built this as a beginner blue-team project because log review is one of the first practical skills in security work: read the evidence, group the activity, and explain what looks unusual.
+
+## Screenshot
+
+![Cybersecurity Log Analyzer home screen](screenshots/app-home.png)
+
 ## Run
 
 Open `index.html` in a browser.
+
+## Testing
+
+```bash
+npm test
+```
+
+The test checks JavaScript syntax, required project files, README sections, screenshot presence, and old template/security placeholder wording.
 
 ## What It Does
 
@@ -27,5 +41,5 @@ Use sample logs or logs you are allowed to review. Do not upload real customer, 
 ## Next Improvements
 
 - Add a few more sample logs for failed sign-ins, web probes, and normal traffic.
-- Add a screenshot after the next UI polish pass.
-- Add a short manual test checklist for the main rules.
+- Add highlighted evidence inside the pasted log text.
+- Add a manual test checklist for the main rules.
