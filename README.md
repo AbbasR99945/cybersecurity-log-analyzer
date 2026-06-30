@@ -26,7 +26,12 @@ The test checks JavaScript syntax, required project files, README sections, scre
 - Uses clear rule-based checks instead of hidden scoring.
 - Groups findings by source IP where possible.
 - Shows matched evidence and response notes.
+- Shows a short analyst checklist after each run.
 - Exports a JSON report for later review.
+
+## Completion Status
+
+This is complete as a beginner browser-based blue-team project. It has a sample log, visible scoring, response notes, export, screenshot, and a smoke test.
 
 ## Safety Note
 
@@ -42,7 +47,7 @@ Use sample logs or logs you are allowed to review. Do not upload real customer, 
 
 - Add a few more sample logs for failed sign-ins, web probes, and normal traffic.
 - Add highlighted evidence inside the pasted log text.
-- Add a manual test checklist for the main rules.
+- Add rule toggles for comparing different detection ideas.
 
 ## Portfolio Notes
 

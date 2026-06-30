@@ -18,7 +18,7 @@ for (const file of requiredFiles) {
 }
 
 const readme = fs.readFileSync(path.join(root, "README.md"), "utf8");
-for (const heading of ["## Run", "## Screenshot", "## Testing", "## Safety Note"]) {
+for (const heading of ["## Run", "## Screenshot", "## Testing", "## Safety Note", "## Completion Status"]) {
   if (!readme.includes(heading)) {
     throw new Error(`README is missing ${heading}`);
   }

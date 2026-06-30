@@ -8,6 +8,8 @@ const metrics = document.querySelector("#metrics");
 const incidentList = document.querySelector("#incidents");
 const ipTable = document.querySelector("#ip-table tbody");
 const advice = document.querySelector("#advice");
+const checklist = document.querySelector("#checklist");
+const statusBox = document.querySelector("#status");
 
 let lastReport = null;
 
@@ -86,8 +88,10 @@ function analyzeLogs(text) {
 }
 
 function render(report) {
+  const riskLevel = getRiskLevel(report.riskScore);
   metrics.innerHTML = `
-    <div class="metric"><span class="muted">Risk</span><strong>${report.riskScore}</strong></div>
+    <div class="metric"><span class="muted">Risk</span><strong class="${riskLevel.className}">${report.riskScore}</strong></div>
+    <div class="metric"><span class="muted">Level</span><strong>${riskLevel.label}</strong></div>
     <div class="metric"><span class="muted">Incidents</span><strong>${report.incidentCount}</strong></div>
     <div class="metric"><span class="muted">Lines</span><strong>${report.lineCount}</strong></div>
     <div class="metric"><span class="muted">IPs</span><strong>${report.uniqueIps}</strong></div>
@@ -109,7 +113,14 @@ function render(report) {
       <td>${stat.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</td>
     </tr>
   `).join("");
+  checklist.innerHTML = buildChecklist(report).map(item => `
+    <div class="check-item">
+      <strong>${item.title}</strong>
+      <span>${item.detail}</span>
+    </div>
+  `).join("");
   advice.innerHTML = buildAdvice(report).map(line => `<li>${line}</li>`).join("");
+  statusBox.textContent = `Analysis complete: ${report.incidentCount} incident${report.incidentCount === 1 ? "" : "s"} from ${report.lineCount} log line${report.lineCount === 1 ? "" : "s"}.`;
 }
 
 function buildAdvice(report) {
@@ -119,6 +130,49 @@ function buildAdvice(report) {
   if (report.ipStats.some(stat => stat.tags.includes("Sensitive path probe"))) actions.push("Check web server hardening, disable unused admin routes, and monitor repeated 404 probes.");
   if (actions.length === 0) actions.push("Keep collecting logs and compare this run with a normal baseline.");
   return actions;
+}
+
+function buildChecklist(report) {
+  return [
+    {
+      title: "Confirm ownership",
+      detail: "Use this on logs you own or have permission to review."
+    },
+    {
+      title: "Check the strongest source",
+      detail: report.ipStats[0]
+        ? `${report.ipStats[0].ip} has the highest score in this run.`
+        : "No source IP stood out in this run."
+    },
+    {
+      title: "Look for follow-up access",
+      detail: report.incidentCount
+        ? "Search around the same timestamps for successful logins or new admin actions."
+        : "No suspicious rule hits were found, so compare against a normal baseline."
+    }
+  ];
+}
+
+function getRiskLevel(score) {
+  if (score >= 70) return { label: "High", className: "danger" };
+  if (score >= 35) return { label: "Medium", className: "warning" };
+  return { label: "Low", className: "success" };
+}
+
+function renderEmptyState() {
+  metrics.innerHTML = `
+    <div class="metric"><span class="muted">Risk</span><strong>0</strong></div>
+    <div class="metric"><span class="muted">Level</span><strong>Ready</strong></div>
+    <div class="metric"><span class="muted">Incidents</span><strong>0</strong></div>
+    <div class="metric"><span class="muted">Lines</span><strong>0</strong></div>
+  `;
+  incidentList.innerHTML = "<p class=\"muted\">Run the sample or paste cleaned logs to see findings here.</p>";
+  ipTable.innerHTML = "<tr><td colspan=\"4\" class=\"muted\">No source IPs analysed yet.</td></tr>";
+  checklist.innerHTML = `
+    <div class="check-item"><strong>Start with sample data</strong><span>Use the included sample to understand the workflow before reviewing your own cleaned logs.</span></div>
+    <div class="check-item"><strong>Keep the evidence</strong><span>Each finding keeps the original line so the score can be checked manually.</span></div>
+  `;
+  advice.innerHTML = "<li>Load the sample log to see response notes.</li>";
 }
 
 function escapeHtml(value) {
@@ -137,9 +191,16 @@ function download(filename, content) {
 
 fileInput.addEventListener("change", async () => {
   const file = fileInput.files[0];
-  if (file) input.value = await file.text();
+  if (file) {
+    input.value = await file.text();
+    statusBox.textContent = `Loaded ${file.name}. Run analysis when ready.`;
+  }
 });
 analyzeButton.addEventListener("click", () => {
+  if (!input.value.trim()) {
+    statusBox.textContent = "Add log text or load the sample first.";
+    return;
+  }
   lastReport = analyzeLogs(input.value);
   render(lastReport);
 });
@@ -154,8 +215,14 @@ clearButton.addEventListener("click", () => {
   incidentList.innerHTML = "";
   ipTable.innerHTML = "";
   advice.innerHTML = "";
+  checklist.innerHTML = "";
+  statusBox.textContent = "Cleared. Ready for another log sample.";
   lastReport = null;
+  renderEmptyState();
 });
 exportButton.addEventListener("click", () => {
   if (lastReport) download("security-log-report.json", JSON.stringify(lastReport, null, 2));
+  else statusBox.textContent = "Run an analysis before exporting a report.";
 });
+
+renderEmptyState();

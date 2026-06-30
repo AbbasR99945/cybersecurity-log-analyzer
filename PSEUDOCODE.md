@@ -5,8 +5,8 @@
 3. Run each line through defensive detection rules.
 4. Extract source IP addresses when they exist.
 5. Group incidents by IP and add risk points.
-6. Render the summary, incident list, IP table, and response notes.
-7. Export the report as JSON.
+6. Render the summary, risk label, incident list, IP table, checklist, and response notes.
+7. Export the report as JSON after an analysis has been run.
 
-Long-line survival note: if the log line reaches the edge of the screen, it is probably also annoying in production.
+Review note: keep the matched log line visible beside each finding so the score can be checked manually.
 
